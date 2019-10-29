@@ -1,0 +1,11 @@
+<button type="button" (click)="toogle()" class="btn btn-primary my-3">{{habilitar==true?'Ocultar':'Mostrar'}}</button>
+<div class="header">
+    <div class="card-header">
+        Listado de cursos
+    </div>
+    <ul class="list-group" *ngIf="habilitar">
+        <li *ngFor="let curso of listaCurso" class="list-group-item">
+            {{curso}}
+        </li>
+    </ul>
+</div>
