@@ -1,29 +1,58 @@
 <div class="card bg-dark text-white">
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
-        <form (ngSubmit)="create()">
+        <form #clienteForm="ngForm">
             <div class="form-group row">
                 <label for="nombre" class="col-form-label col-sm-2"></label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="cliente.nombre" name="nombre">
+                    <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="cliente.nombre" name="nombre" required minlength="4" #nombre="ngModel">
+                    <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched )">
+                        <div *ngIf="nombre.errors.required">
+                            El nombre es requerido
+                        </div>
+                        <div *ngIf="nombre.errors.minlength">
+                            El nombre debe tener al menos 4 caracteres
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="form-group row">
                 <label for="apaterno" class="col-form-label col-sm-2"></label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="apaterno" placeholder="Apellido paterno" [(ngModel)]="cliente.apellido">
+                    <input type="text" class="form-control" name="apaterno" placeholder="Apellido paterno" [(ngModel)]="cliente.apellido" required minlength="4" #apaterno="ngModel">
+                    <div class="alert alert-danger" *ngIf="apaterno.invalid && (apaterno.dirty || apaterno.touched )">
+                        <div *ngIf="apaterno.errors.required">
+                            El apellido es requerido
+                        </div>
+                        <div *ngIf="apaterno.errors.minlength">
+                            El apellido debe tener al menos 4 caracteres
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="apaterno" class="col-form-label col-sm-2"></label>
+                <label for="email" class="col-form-label col-sm-2"></label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" placeholder="Email" [(ngModel)]="cliente.email" name="email">
+                    <input type="text" class="form-control" placeholder="Email" [(ngModel)]="cliente.email" name="email" required email #email="ngModel">
+                    <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched )">
+                        <div *ngIf="email.errors.required">
+                            El email es requerido
+                        </div>
+                        <div *ngIf="email.errors.email">
+                            Esto no parece ser un correo valido
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-ms-6">
-                    <button class="btn btn-primary" type="submit" role="button">Crear</button>
+                    <button [disabled]="!clienteForm.form.valid" class="btn btn-primary" type="submit" (click)="create()" *ngIf="!cliente.id else elseBlock" role="button">Registrar</button>
                 </div>
+                <ng-template #elseBlock>
+                    <button [disabled]="!clienteForm.form.valid" class="btn btn-primary" type="submit" (click)="update()" role="button">Actualizar</button>
+
+                </ng-template>
 
             </div>
 
